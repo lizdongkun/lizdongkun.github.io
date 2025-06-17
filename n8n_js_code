@@ -1,0 +1,16 @@
+// 假设 data 是你的原始内容
+const data = $input.item.json.data;
+
+// 1. 删除 <think>...</think> 及其内容
+const text = data.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+
+// 2. 提取所有 SELECT ... ; 语句
+const sqlList = [];
+const regex = /SELECT[\s\S]+?;/gi;
+let match;
+while ((match = regex.exec(text)) !== null) {
+  sqlList.push(match[0].trim());
+}
+
+// 3. 返回所有SQL语句组成的数组
+return sqlList.map(sql => ({ sql }));
